@@ -8,4 +8,8 @@
     <dimen name="fab_press_translation_z">6dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
 
+    <dimen name="listview_margin_side">8dp</dimen>
+    <dimen name="listview_margin_bottom">24dp</dimen>
+    <dimen name="_list_height">100dp</dimen>
+
 </resources>
