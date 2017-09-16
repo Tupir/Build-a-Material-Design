@@ -234,12 +234,13 @@ public class ArticleListActivity extends AppCompatActivity implements
             String stre = mCursor.getString(ArticleLoader.Query.TITLE);
             stre = mCursor.getString(ArticleLoader.Query.AUTHOR);
             stre = mCursor.getString(ArticleLoader.Query.BODY);
+            Long id = mCursor.getLong(ArticleLoader.Query._ID);
 
             System.out.println(mCursor.getString(ArticleLoader.Query.TITLE));
 
             System.out.println(titleView.getText()+"\n\n\n\n"+ subtitleView.getText());
 
-            ide.putExtra("id", adapterPosition);
+            ide.putExtra("id", id);
 
             if (imageWiew != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 Bundle bundle = ActivityOptionsCompat

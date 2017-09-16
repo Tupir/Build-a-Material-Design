@@ -28,7 +28,7 @@ public class ArticleDetailActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private Cursor mCursor;
-    private int mStartId;
+    private long mStartId;
 
     private long mSelectedItemId;
     private int mSelectedItemUpButtonFloor = Integer.MAX_VALUE;
@@ -38,12 +38,12 @@ public class ArticleDetailActivity extends AppCompatActivity
     private MyPagerAdapter mPagerAdapter;
     private View mUpButtonContainer;
     private View mUpButton;
-    private int counts=1;
-    private boolean isFirst = true;
+    private int states=0;
+    private int counts = 1;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT_WATCH)
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().getDecorView().setSystemUiVisibility(
@@ -67,11 +67,12 @@ public class ArticleDetailActivity extends AppCompatActivity
             @Override
             public void onPageScrollStateChanged(int state) {
                 super.onPageScrollStateChanged(state);
-//                if(state == 1) {
+//                if(state != 1) {
 //                    counts++;
 //                    //mStartId++;
 //                }
 //                getLoaderManager().initLoader(counts, null, callback);
+//                states = state;
                 mUpButton.animate()
                         .alpha((state == ViewPager.SCROLL_STATE_IDLE) ? 1f : 0f)
                         .setDuration(300);
@@ -109,16 +110,9 @@ public class ArticleDetailActivity extends AppCompatActivity
                 }
             });
 
-//        if (savedInstanceState == null) {
-//            if (getIntent() != null && getIntent().getData() != null) {
-//                mStartId = ItemsContract.Items.getItemId(getIntent().getData());
-//                mSelectedItemId = mStartId;
-//            }
-//        }
-
         if (savedInstanceState == null) {
             if (getIntent() != null && getIntent() != null) {
-                mStartId = getIntent().getIntExtra("id", 0);
+                mStartId = getIntent().getLongExtra("id", 0);
                 System.out.println(mStartId);
                 mSelectedItemId = mStartId;
             }
@@ -130,14 +124,29 @@ public class ArticleDetailActivity extends AppCompatActivity
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return ArticleLoader.newAllArticlesInstance(this);
-        //return ArticleLoader.newInstanceForItemId(this, ArticleListActivity.getCursor().getLong(ArticleLoader.Query._ID));
+       //return ArticleLoader.newInstanceForItemId(this, mCursor.getLong(ArticleLoader.Query._ID));
+
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         mCursor = cursor;
         mPagerAdapter.notifyDataSetChanged();
-        mPager.setCurrentItem(mStartId, false);
+
+
+        // Select the start ID
+        if (mStartId > 0) {
+            mCursor.moveToFirst();
+            while (!mCursor.isAfterLast()) {
+                if (mCursor.getLong(ArticleLoader.Query._ID) == mStartId) {
+                    final int position = mCursor.getPosition();
+                    mPager.setCurrentItem(position, false);
+                    break;
+                }
+                mCursor.moveToNext();
+            }
+        }
+
 
     }
 
@@ -176,8 +185,11 @@ public class ArticleDetailActivity extends AppCompatActivity
 
         @Override
         public Fragment getItem(int position) {
-            mCursor.moveToPosition(mStartId +position);
+
+            mCursor.moveToPosition(position);
+
             System.out.println("_ID: " + mCursor.getLong(ArticleLoader.Query._ID));
+
             return ArticleDetailFragment.newInstance(mCursor.getLong(ArticleLoader.Query._ID));
         }
 
