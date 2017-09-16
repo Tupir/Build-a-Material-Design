@@ -10,6 +10,8 @@
 
     <dimen name="listview_margin_side">8dp</dimen>
     <dimen name="listview_margin_bottom">24dp</dimen>
-    <dimen name="_list_height">100dp</dimen>
+    <dimen name="half_list_height">100dp</dimen>
+    <dimen name="item_margin_side">4dp</dimen>
+    <dimen name="item_margin_top">16dp</dimen>
 
 </resources>

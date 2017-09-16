@@ -23,17 +23,13 @@
     <color name="theme_accent">#04561A</color>
     <color name="ltgray">#ffe0e0e0</color>
     <color name="white">#ffffffff</color>
+    <color name="text_shadow_white">#ff9e9e9e</color>
 
 
 
     <color name="brand_color">#00796b</color>
-    <color name="deep_orange_700">#004c40</color>
-    <color name="green_a400">#ad1457</color>
+    <color name="deep_green">#004c40</color>
+    <color name="red">#ad1457</color>
 
-
-    <color name="deep_orange_500">#ff5722</color>
-    <color name="deep_orange_300">#ff8a65</color>
-    <color name="green_a200">#69f0ae</color>
-    <color name="background_protection_dark">#9000</color>
 
 </resources>
