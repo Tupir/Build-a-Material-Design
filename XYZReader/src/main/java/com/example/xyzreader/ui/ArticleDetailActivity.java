@@ -137,7 +137,7 @@ public class ArticleDetailActivity extends AppCompatActivity
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         mCursor = cursor;
         mPagerAdapter.notifyDataSetChanged();
-        mPager.setCurrentItem(mStartId-1, false);
+        mPager.setCurrentItem(mStartId, false);
 
     }
 
@@ -176,10 +176,8 @@ public class ArticleDetailActivity extends AppCompatActivity
 
         @Override
         public Fragment getItem(int position) {
-            mCursor.moveToPosition(position);
-            mStartId = position;
+            mCursor.moveToPosition(mStartId +position);
             System.out.println("_ID: " + mCursor.getLong(ArticleLoader.Query._ID));
-
             return ArticleDetailFragment.newInstance(mCursor.getLong(ArticleLoader.Query._ID));
         }
 
