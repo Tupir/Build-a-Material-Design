@@ -54,6 +54,9 @@ public class UpdaterService extends IntentService {
         // Delete all items
         cpo.add(ContentProviderOperation.newDelete(dirUri).build());
 
+
+
+
         try {
             JSONArray array = RemoteEndpointUtil.fetchJsonArray();
             if (array == null) {

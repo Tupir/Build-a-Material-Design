@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -55,6 +56,8 @@ public class ArticleListActivity extends AppCompatActivity implements
     private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2,1,1);
     private Adapter adapter;
     private static Cursor mCursor;
+    private static final String CURRENT_ARTICLE = "currentArticle";
+    private static final String START_ARTICLE = "startArticle";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +92,7 @@ public class ArticleListActivity extends AppCompatActivity implements
         startService(new Intent(this, UpdaterService.class));
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -112,6 +116,8 @@ public class ArticleListActivity extends AppCompatActivity implements
                 mIsRefreshing = intent.getBooleanExtra(UpdaterService.EXTRA_REFRESHING, false);
                 updateRefreshingUI();
             }
+            System.out.println("DOSLO");
+
         }
     };
 
@@ -236,11 +242,19 @@ public class ArticleListActivity extends AppCompatActivity implements
             stre = mCursor.getString(ArticleLoader.Query.BODY);
             Long id = mCursor.getLong(ArticleLoader.Query._ID);
 
+            int o = mCursor.getPosition();
             System.out.println(mCursor.getString(ArticleLoader.Query.TITLE));
-
             System.out.println(titleView.getText()+"\n\n\n\n"+ subtitleView.getText());
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                String sfetr = (imageWiew.getTransitionName());
+                imageWiew.setTransitionName(Integer.toString(adapterPosition));
+                sfetr = (imageWiew.getTransitionName());
+                System.out.println("defg");
+            }
+
             ide.putExtra("id", id);
+            ide.putExtra("position", adapterPosition);
 
             if (imageWiew != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 Bundle bundle = ActivityOptionsCompat
