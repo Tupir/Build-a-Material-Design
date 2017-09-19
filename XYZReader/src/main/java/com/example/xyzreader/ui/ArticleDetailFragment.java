@@ -35,6 +35,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * A fragment representing a single Article detail screen. This fragment is
  * either contained in a {@link ArticleListActivity} in two-pane mode (on
@@ -45,7 +48,6 @@ public class ArticleDetailFragment extends Fragment implements
     private static final String TAG = "ArticleDetailFragment";
 
     public static final String ARG_ITEM_ID = "item_id";
-    private static final float PARALLAX_FACTOR = 1.25f;
     private static final String ARGS_ITEM_POSIION = "item_position";
     private static String transitionName;
 
@@ -57,17 +59,20 @@ public class ArticleDetailFragment extends Fragment implements
     private CoordinatorLayout mDrawInsetsFrameLayout;
     private ColorDrawable mStatusBarColorDrawable;
     public static boolean enabled = true;
-    private ScrollView scrollView;
+    @BindView(R.id.anchor)
+    ScrollView scrollView;
 
     private View mPhotoContainerView;
     private int mTopInset;
     private View mUpButton;
-    private ImageView mPhotoView;
+    @BindView(R.id.photo)
+    ImageView mPhotoView;
     private int mScrollY;
     private boolean mIsCard = false;
     private int mStatusBarFullOpacityBottom;
     private CollapsingToolbarLayout collapsingToolbarLayout;
-    private FloatingActionButton share_fab;
+    @BindView(R.id.share_fab)
+    FloatingActionButton share_fab;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
     // Use default locale format
@@ -129,14 +134,14 @@ public class ArticleDetailFragment extends Fragment implements
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
 
+
         // set title expanded/collapsed text size/color
         // multiline-collapsingtoolbar if you title is more than 1 line
         ((CollapsingToolbarLayout) mRootView.findViewById(R.id.collapsing_toolbar_layout)).setCollapsedTitleTextAppearance(R.style.CollapsedAppBar2);
         ((CollapsingToolbarLayout) mRootView.findViewById(R.id.collapsing_toolbar_layout)).setExpandedTitleTextAppearance(R.style.CollapsedAppBar);
 
-        mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
-        share_fab = (FloatingActionButton) mRootView.findViewById(R.id.share_fab);
-        scrollView = (ScrollView) mRootView.findViewById(R.id.anchor);
+        ButterKnife.bind(this, mRootView);
+
 
 //        mDrawInsetsFrameLayout = (CoordinatorLayout)
 //                mRootView.findViewById(R.id.draw_insets_frame_layout);
@@ -179,7 +184,7 @@ public class ArticleDetailFragment extends Fragment implements
         scrollView.setOnScrollChangeListener(new ScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY >= oldScrollY+10) {
+                if (scrollY >= oldScrollY+5) {
                     share_fab.hide();
                 } else {
                     share_fab.show();
@@ -274,7 +279,8 @@ public class ArticleDetailFragment extends Fragment implements
 
             }
 
-            bodyView.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY).replaceAll("(\r\n|\n)", "<br />")));
+            bodyView.setText((mCursor.getString(ArticleLoader.Query.BODY).substring(0,2000)));
+            //bodyView.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY).replaceAll("(\r\n|\n)", "<br />")));
 
             ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
                     .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
