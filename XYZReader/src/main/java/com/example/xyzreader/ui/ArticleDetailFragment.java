@@ -1,7 +1,9 @@
 package com.example.xyzreader.ui;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -80,6 +82,11 @@ public class ArticleDetailFragment extends Fragment implements
     // Most time functions can only handle 1902 - 2037
     private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2,1,1);
     public static boolean current = true;
+    // to let activity know, when view is loaded
+    public interface OnCompleteListener {
+        void onComplete();
+    }
+    private OnCompleteListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -198,6 +205,28 @@ public class ArticleDetailFragment extends Fragment implements
         updateStatusBar();
         return mRootView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    // to let activity know, when view is loaded
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Activity a = null;
+        if (context instanceof Activity){
+            a=(Activity) context;
+        }
+        try {
+            this.mListener = (OnCompleteListener)a;
+        }
+        catch (final ClassCastException e) {
+            throw new ClassCastException(a.toString() + " must implement OnCompleteListener");
+        }
+    }
+
 
     private void updateStatusBar() {
 //        int color = 0;
@@ -332,11 +361,12 @@ public class ArticleDetailFragment extends Fragment implements
         }
 
         /**
-         Setting special Transition name for every single fragment created, because of returnin right image
+         Setting special Transition name for every single fragment created, because of returning right image
          */
+        Cursor cuu=null;
         if (ArticleDetailActivity.getPosition() >= 0 && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)) {
 
-            Cursor cuu = ArticleListActivity.getCursor();
+            cuu = ArticleListActivity.getCursor();
             cuu.moveToPosition(ArticleDetailActivity.getPosition());
 
             if(mCursor.getLong(ArticleLoader.Query._ID) == cuu.getLong(ArticleLoader.Query._ID)){
@@ -350,6 +380,9 @@ public class ArticleDetailFragment extends Fragment implements
 
         //create view and add values to them
         bindViews();    // should be done background if it's not current?
+        if(mCursor.getLong(ArticleLoader.Query._ID) == cuu.getLong(ArticleLoader.Query._ID) && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)){
+            mListener.onComplete();
+        }
     }
 
     @Override

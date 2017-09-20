@@ -30,6 +30,14 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="Theme.Bacon.List" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
+        <item name="colorPrimary">@color/brand_color</item>
+        <item name="colorPrimaryDark">@color/deep_green</item>
+        <item name="colorAccent">@color/red</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 
     <style name="ExpandedAppBar" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">28sp</item>

@@ -28,10 +28,9 @@
     <color name="background">#bdbdbd</color>
 
 
-
-    <color name="brand_color">#004c40</color>
-    <color name="deep_green">#757575</color>
-    <color name="red">#ad1457</color>
+    <color name="brand_color">#009688</color>
+    <color name="deep_green">#00796B</color>
+    <color name="red">#FF4081</color>
 
 
 </resources>

@@ -1,5 +1,6 @@
 package com.example.xyzreader.ui;
 
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ public class ParallaxPageTransformer implements ViewPager.PageTransformer {
         ImageView imageView = (ImageView) view.findViewById(R.id.photo);
         TextView bylineView = (TextView) view.findViewById(R.id.article_byline);
         TextView bodyView = (TextView) view.findViewById(R.id.article_body);
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar_layout);
 
 
         if (position < -1) { // [-Infinity,-1)
