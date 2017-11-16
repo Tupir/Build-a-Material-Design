@@ -1,6 +1,3 @@
 = XYZ Reader Starter Code
 
-- app with free/paid version
-- firebass server and locale server
-- playing with builds
-- create own libraries
+
