@@ -1,3 +1,4 @@
 = XYZ Reader Starter Code
 
 
+- mostly design cool features such as animations, special views, collapsing layout, special toolbars and scrollbars etc...
